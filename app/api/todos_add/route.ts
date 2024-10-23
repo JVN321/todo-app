@@ -7,11 +7,10 @@ import Todo from "@/models/todo";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { userId, taskId, task, status, desc } = await req.json();
+  const { userId, task, status, desc } = await req.json();
   await dbConnect();
   await new Todo({
     userId,
-    taskId,
     task,
     status,
     desc,
@@ -23,7 +22,7 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   // Extract data from the request body
-  const {_id, userId, taskId, task, status, desc } = await req.json();
+  const {_id, userId, task, status, desc } = await req.json();
 
   // Connect to the database
   await dbConnect();
