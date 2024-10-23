@@ -51,7 +51,33 @@ const CardEditor: React.FC<CardEditorProps> = ({ onClose, fetchTodos, selectedTo
       alert("An error occurred. Please try again.");
     }
   };
+  const handleDrop = async () => {
+    try {
+      const url = "/api/todos_drop";
+      const method = "POST";
 
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: selectedTodo?._id
+        }),
+      });
+      
+      const result = await response.json();
+      if (result.success) {
+        fetchTodos(); // Refresh the todo list
+        onClose(); // Close the editor
+      } else {
+        alert("Failed to Delete task");
+      }
+    } catch (error) {
+      console.error("Error Deleting task:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
   // Update the state if selectedTodo changes
   useEffect(() => {
     if (selectedTodo) {
@@ -78,7 +104,7 @@ const CardEditor: React.FC<CardEditorProps> = ({ onClose, fetchTodos, selectedTo
             placeholder="Description"
           />
           <div className="card-actions justify-end space-x">
-            <button className="btn flex items-center btn-outline border-red-700 hover:border-red-700 hover:bg-red-700 hover:bg-opacity-20">
+            <button onClick={handleDrop} className="btn flex items-center btn-outline border-red-700 hover:border-red-700 hover:bg-red-700 hover:bg-opacity-20">
               <FaTrashAlt className="text-lg text-red-600" />
             </button>
             <button
