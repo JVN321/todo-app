@@ -1,24 +1,26 @@
-// app/about/page.tsx
-// pages/index.tsx
+
+"use client";
 import React from "react";
-import Card from "../components/card";
-import Footer from "../components/footer";
-import Bot_nav_bar from "../components/bot_nav_bar";
+import Bot_nav_bar from "../components/Bot_nav_bar";
 import TodoList from "../components/todolist";
-
-const cardsData = [
-  { title: "Card 1", content: "Content for card 1" },
-
-  // Add more cards as needed
-];
+import { useState, useEffect } from "react";
+import { useUserContext } from "../context/UserContext";
 
 export default function todoPage() {
+  const { userId } = useUserContext();
+  console.log(userId);
+  if (!userId) {
+    return <div>Loading...</div>;
+  }
+
   return (
+    <div className="bg-base-200">
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow">
-        <TodoList userId={"60c72b2f9b1d2c001f2e3a35"}></TodoList>
+        <TodoList userId={userId}></TodoList>
       </main>
-      <Bot_nav_bar />
+      <Bot_nav_bar/>
+    </div>
     </div>
   );
 }

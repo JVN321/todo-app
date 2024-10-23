@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { UserProvider } from "./context/UserContext";
+import { EditingProvider } from "./context/EditingContext";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -25,10 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <EditingProvider>
+          <UserProvider>{children}</UserProvider>
+        </EditingProvider>
       </body>
     </html>
   );
