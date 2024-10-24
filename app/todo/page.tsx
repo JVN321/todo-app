@@ -1,7 +1,7 @@
 
 "use client";
 import React from "react";
-import Bot_nav_bar from "../components/Bot_nav_bar";
+import Bot_nav_bar from "../components/bot_nav_bar";
 import TodoList from "../components/todolist";
 import { useState, useEffect } from "react";
 import { useUserContext } from "../context/UserContext";
