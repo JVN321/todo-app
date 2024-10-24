@@ -10,11 +10,9 @@ const Card: React.FC<CardProps> = ({ title, content, onEditClick }) => {
   return (
     <div className="card bg-base-100 w-full shadow-xl flex flex-col justify-between h-64 md:h-96">
       <div className="card-body p-4 overflow-hidden" onClick={onEditClick}>
-        {/* Set a fixed height for the title */}
         <h2 className="card-title text-lg font-bold truncate max-h-12">
           {title}
         </h2>
-        {/* Set a max height for content, and make it scrollable if it overflows */}
         <div className="content-wrapper overflow-auto">
           <p className="text-sm whitespace-normal break-words">
             {content}
