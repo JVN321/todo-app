@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "daisyui": "^4.12.13",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.2",
