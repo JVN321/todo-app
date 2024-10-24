@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"; // Adjusted for the app directory
 import { useUserContext } from "../context/UserContext";
 
 const Login: React.FC = () => {
+  const [error, setError] = useState('');
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setUserId } = useUserContext();
@@ -25,6 +26,7 @@ const Login: React.FC = () => {
       setUserId(data.userId); // Set the user ID in context
       router.push("/todo"); // Redirect to the todo page
     } else {
+      setError(data.message || 'Login failed. Please check your credentials.');
       console.error("Error:", data.message);
     }
   };
@@ -54,11 +56,10 @@ const Login: React.FC = () => {
         console.log("User created:", data);
         handleLogin()
       } else {
-        // Handle errors (e.g., user already exists)
-        console.error("Registration error:", data.message);
-        alert(data.message); // Show error message to the user
+        setError(data.message || 'User already exists');
       }
     } catch (error) {
+      setError('Registration failed');
       // Handle any unexpected errors
       console.error("An error occurred during registration:", error);
       alert("An error occurred during registration. Please try again later.");
@@ -73,6 +74,7 @@ const Login: React.FC = () => {
           <input type="text" placeholder="Username" className="input input-bordered w-full mb-4" value={username} onChange={(e) => setUsername(e.target.value)} />
           <div className="card-actions justify-start space-x">Password</div>
           <input type="password" placeholder="Password" className="input input-bordered w-full mb-4" value={password} onChange={(e) => setPassword(e.target.value)} />
+          {error && <p style={{ color: 'red' }}>{error}</p>}
           <div className="card-actions justify-center space-x">
             <button className="btn flex items-center btn-outline border-green-700 hover:border-green-700 hover:bg-green-700 hover:bg-opacity-20" onClick={handleLogin}>
               <div className="text-lg text-green-600">Login</div>
@@ -81,6 +83,7 @@ const Login: React.FC = () => {
               <div className="text-lg text-red-600">Register</div>
             </button>
           </div>
+          
         </div>
       </div>
     </div>
