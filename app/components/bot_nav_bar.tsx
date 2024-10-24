@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useEditingContext } from "../context/EditingContext";
 
-export default function bot_nav_bar()  {
+export default function Bot_nav_bar()  {
   const { setIsEditing } = useEditingContext();
   const router = useRouter();
   const onHomeClick = () => {
