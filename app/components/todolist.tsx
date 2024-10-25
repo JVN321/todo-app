@@ -1,6 +1,6 @@
 "use client";
 
-import Card from "../components/Card";
+import Card from "./Card";
 import CardEditor from "../components/Card_editor";
 import { useState, useEffect } from "react";
 import { useUserContext } from "../context/UserContext";
@@ -21,20 +21,19 @@ interface Props {
 export default function TodoList({ userId }: Props) {
   const { setIsEditing, isEditing } = useEditingContext();
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null); // State to store the selected task
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  // Function to trigger editor visibility and pass the selected task
   const handleEditClick = (todo: Todo) => {
-    setSelectedTodo(todo); // Set the selected task
-    setIsEditing(true); // Show the editor
+    setSelectedTodo(todo);
+    setIsEditing(true);
   };
 
   const handleCloseEditor = () => {
-    setIsEditing(false); // Hide the editor
-    setSelectedTodo(null); // Clear the selected task
+    setIsEditing(false);
+    setSelectedTodo(null);
   };
 
-  // Fetch todos from the API
+
   async function fetchTodos() {
     const res = await fetch(`/api/todos?userId=${userId}`);
     const { data } = await res.json();
@@ -53,7 +52,7 @@ export default function TodoList({ userId }: Props) {
             key={todo._id}
             title={todo.task}
             content={todo.desc}
-            onEditClick={() => handleEditClick(todo)} // Pass the selected todo
+            onEditClick={() => handleEditClick(todo)}
           />
         ))}
       </div>
@@ -61,7 +60,7 @@ export default function TodoList({ userId }: Props) {
         <CardEditor
           onClose={handleCloseEditor}
           fetchTodos={fetchTodos}
-          selectedTodo={selectedTodo} // Pass the selected task
+          selectedTodo={selectedTodo}
         />
       )}
     </div>
