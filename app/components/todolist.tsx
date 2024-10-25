@@ -1,6 +1,6 @@
 "use client";
 
-import Card from "../components/card";
+import Card from "../components/Card";
 import CardEditor from "../components/Card_editor";
 import { useState, useEffect } from "react";
 import { useUserContext } from "../context/UserContext";
