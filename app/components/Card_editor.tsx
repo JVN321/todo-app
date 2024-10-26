@@ -9,21 +9,21 @@ import { Todo } from "../components/todolist";
 interface CardEditorProps {
   onClose: () => void;
   fetchTodos: () => void;
-  selectedTodo: Todo | null; // Accept the selected task as a prop
+  selectedTodo: Todo | null;
 }
 
 
 
 const CardEditor: React.FC<CardEditorProps> = ({ onClose, fetchTodos, selectedTodo }) => {
-  const { userId } = useUserContext(); // Use context to get userId
-  const [task, setTask] = useState(selectedTodo?.task || ""); // Pre-fill task if editing
-  const [desc, setDesc] = useState(selectedTodo?.desc || ""); // Pre-fill description if editing
+  const { userId } = useUserContext();
+  const [task, setTask] = useState(selectedTodo?.task || "");
+  const [desc, setDesc] = useState(selectedTodo?.desc || "");
 
-  // Handle saving the task (either editing or creating a new one)
+
   const handleSave = async () => {
     try {
-      const url = "/api/todos_add"; // If editing, use the task's ID
-      const method = selectedTodo ? "PUT" : "POST"; // Use PUT for updating, POST for creating
+      const url = "/api/todos_add";
+      const method = selectedTodo ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method: method,
@@ -34,15 +34,15 @@ const CardEditor: React.FC<CardEditorProps> = ({ onClose, fetchTodos, selectedTo
           _id: selectedTodo?._id || null,
           userId: userId,
           task: task,
-          status: "pending", // Assuming the default status is 'pending'
+          status: "pending",
           desc: desc,
         }),
       });
       
       const result = await response.json();
       if (result.success) {
-        fetchTodos(); // Refresh the todo list
-        onClose(); // Close the editor
+        fetchTodos();
+        onClose();
       } else {
         alert("Failed to save task");
       }

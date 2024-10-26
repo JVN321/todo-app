@@ -1,7 +1,7 @@
-// app/components/Login.tsx
+
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Adjusted for the app directory
+import { useRouter } from "next/navigation";
 import { useUserContext } from "../context/UserContext";
 
 const Login: React.FC = () => {
@@ -23,8 +23,8 @@ const Login: React.FC = () => {
     const data = await response.json();
     if (response.ok) {
       console.log("Login successful:", data);
-      setUserId(data.userId); // Set the user ID in context
-      router.push("/todo"); // Redirect to the todo page
+      setUserId(data.userId);
+      router.push("/todo");
     } else {
       setError(data.message || 'Login failed. Please check your credentials.');
       console.error("Error:", data.message);
@@ -32,26 +32,23 @@ const Login: React.FC = () => {
   };
 
   const handleRegister = async () => {
-    // Check if username and password are provided
+
     if (!username || !password) {
       console.error("Username and password are required");
       return;
     }
 
     try {
-      // Send the registration request to the API
       const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }), // Send username and password as JSON
+        body: JSON.stringify({ username, password }),
       });
 
-      // Parse the response data
       const data = await response.json();
 
-      // Check for success
       if (response.ok) {
         console.log("User created:", data);
         handleLogin()
@@ -60,9 +57,14 @@ const Login: React.FC = () => {
       }
     } catch (error) {
       setError('Registration failed');
-      // Handle any unexpected errors
       console.error("An error occurred during registration:", error);
       alert("An error occurred during registration. Please try again later.");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleLogin();
     }
   };
 
@@ -73,7 +75,7 @@ const Login: React.FC = () => {
           <div className="card-actions justify-start space-x">User name</div>
           <input type="text" placeholder="Username" className="input input-bordered w-full mb-4" value={username} onChange={(e) => setUsername(e.target.value)} />
           <div className="card-actions justify-start space-x">Password</div>
-          <input type="password" placeholder="Password" className="input input-bordered w-full mb-4" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" placeholder="Password" className="input input-bordered w-full mb-4" value={password} onChange={(e) => setPassword(e.target.value)}  onKeyDown={handleKeyDown}/>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <div className="card-actions justify-center space-x">
             <button className="btn flex items-center btn-outline border-green-700 hover:border-green-700 hover:bg-green-700 hover:bg-opacity-20" onClick={handleLogin}>

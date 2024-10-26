@@ -5,11 +5,15 @@ import Bot_nav_bar from "../components/bot_nav_bar";
 import TodoList from "../components/todolist";
 import { useState, useEffect } from "react";
 import { useUserContext } from "../context/UserContext";
+import { useRouter } from "next/navigation";
 
 export default function todoPage() {
   const { userId } = useUserContext();
   console.log(userId);
   if (!userId) {
+    
+    const router = useRouter();
+    router.push('/login')
     return <div>Loading...</div>;
   }
 
