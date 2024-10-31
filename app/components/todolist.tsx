@@ -22,22 +22,22 @@ export default function TodoList({ userId }: Props) {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   const [showEditor, setShowEditor] = useState(false);
-  const [isClosing, setIsClosing] = useState(false); // Track if closing
+  const [isClosing, setIsClosing] = useState(false);
 
-  const handleEditClick = (todo: Todo) => {
+  const handleEditClick = (todo: Todo | null) => {
     setSelectedTodo(todo);
-    setIsEditing(true);
-    setShowEditor(true); // Start the fade-in effect
+    setShowEditor(true);
   };
 
   const handleCloseEditor = () => {
-    setIsClosing(true); // Trigger fade-out
+    setIsClosing(true);
+    setIsEditing(false);
     setTimeout(() => {
-      setIsEditing(false);
       setSelectedTodo(null);
-      setIsClosing(false); // Reset closing state
+      setIsClosing(false);
       setShowEditor(false);
-    }, 300); // Delay matches the fade-out duration
+      
+    }, 300);
   };
 
   async function fetchTodos() {
@@ -54,6 +54,17 @@ export default function TodoList({ userId }: Props) {
     fetchTodos();
   }, []);
 
+  useEffect(() => {
+    console.log("Fetched todos",isEditing)
+    if (isEditing) {
+      handleEditClick(null);
+    }
+    else{
+      handleCloseEditor();
+      
+    }
+  }, [isEditing]);
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6 mx-auto max-w-screen-lg">
@@ -67,8 +78,7 @@ export default function TodoList({ userId }: Props) {
         ))}
       </div>
 
-      {/* DaisyUI Modal with fade-in/fade-out effect */}
-      {isEditing && (
+      {showEditor && (
         <div
           className={`modal modal-open fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
             showEditor && !isClosing ? "opacity-100" : "opacity-0"

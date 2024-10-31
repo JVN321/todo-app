@@ -78,7 +78,11 @@ const CardEditor: React.FC<CardEditorProps> = ({ onClose, fetchTodos, selectedTo
       alert("An error occurred. Please try again.");
     }
   };
-  // Update the state if selectedTodo changes
+
+  const handleClose = () => {
+    fetchTodos();
+    onClose();
+  };
   useEffect(() => {
     if (selectedTodo) {
       setTask(selectedTodo.task);
@@ -115,7 +119,7 @@ const CardEditor: React.FC<CardEditorProps> = ({ onClose, fetchTodos, selectedTo
             </button>
             <button
               className="btn flex items-center btn-outline hover:border-white border-white hover:bg-white hover:bg-opacity-20"
-              onClick={onClose}
+              onClick={handleClose}
             >
               <MdArrowBack className="text-lg text-white" />
             </button>

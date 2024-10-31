@@ -27,9 +27,9 @@ export async function PUT(req: NextRequest) {
   // Connect to the database
   await dbConnect();
 
-  // Update the existing task based on userId and taskId
+
   const updatedTask = await Todo.findOneAndUpdate(
-    { userId, _id: _id }, // Find the task by userId and taskId
+    { userId, _id: _id },
     {
       $set: {
         task,
